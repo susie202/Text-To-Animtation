@@ -1,0 +1,114 @@
+<!--wait.html-->
+<!DOCTYPE html>
+
+<head>
+	<style>
+	</style>
+</head>
+<body>
+	<div id="loading_image">
+        <div id="gif"></div>
+    </div>
+	
+		
+    <div id="waiting_message">
+		<center>
+			<p style="font-family:Nanum Gothic; font-weight: bold; font-size: 40px; color: blue;">
+			현재 대기 중인 인원은
+                <span id="message">
+                </span>
+			명 입니다.
+			</p>
+			<br>
+			<p style="font-family:Nanum Gothic;font-weight: bold; font-size: 30px;">
+				잠시만 기다려주세요
+			</p>
+		</center>
+    </div>
+	<script>
+		let timer_ID;
+		var flag=true;
+		var i=0;
+		var length;
+		var xhr;
+
+		function get_queue_length(){
+			xhr = new XMLHttpRequest();
+			xhr.onload = function(){
+			if (xhr.status==200 || xhr.status==201) {
+				console.log('데이터 받아오는 중')
+				length = xhr.response;
+				console.log(length);
+				console.log(i);
+				var x = document.getElementById("waiting_message");
+				x.querySelector("#message").innerText = length;
+				//document.querySelector(".waiting").innerHTML = length
+			}
+			else{
+				console.log('err')
+			}
+		};
+		xhr.open("GET", "/get_len/{{encoded_text}}_{{card_id}}", true);
+		xhr.send();
+		}
+	
+		function gogo(){
+			if (i==0){
+				i ++;
+				console.log('셋 인터벌 시작')
+				console.log(i)
+				timer_ID = setInterval(get_queue_length, 3000)
+			}
+			else{
+				clearInterval(timer_ID);
+			}
+		}
+
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function(){
+			if(this.readyState != 4){
+				gogo();	
+				var loading = "<center><img src=../static/big_loading.gif></center>"
+				//var x = getElementById("loading_image");
+				document.querySelector("#gif").innerHTML = loading;
+			}
+			else if(this.status != 200){
+				console.log(this.status);
+				document.querySelector('html').innerHTML = "<html>ERR</html>"
+			}
+			else if(this.readyState == 4 && this.status == 200) {
+				console.log(this.getAllResponseHeaders());
+				clearInterval(timer_ID);
+				console.log('loading complete!');
+				console.log(i);
+				document.querySelector('html').innerHTML = this.responseText;
+			}
+		};
+		xhttp.open("GET", "http://121.144.73.146:50000/test_video/{{encoded_text}}_{{card_id}}", true);
+  		xhttp.send();
+	</script>
+	<!--
+	<h1>sleeeeeepy </h1>
+	<meta http-equiv="refresh" content="{{wait_time}};  url=http://118.38.1.167/test_video/{{encoded_text}}_{{card_id}}"></meta> 
+	-->
+
+
+
+
+	<!--
+		<span style="font-size:2.5em; color:blue;">
+			처리 중입니다.
+			<br>
+			<span style="font-size:1.5em; color: gray;">
+			잠시만 기다려주세요.
+			</span>
+		</span>
+
+		<div id="waiting">
+		대기인원은 몇 명입니다.
+		</div>
+	</div>
+	-->
+</body>
+</html>
+

@@ -1,0 +1,10 @@
+*.mp4
+*.wav
+/tts/model/checkpoint_125000.pt
+/tts/model/waveglow_54000
+*.pth
+*.bin
+models/tts/tacotron2_model/mlb9/checkpoint_470000
+models/tts/waveglow_model/waveglow_54000
+*.pyc
+*.swp

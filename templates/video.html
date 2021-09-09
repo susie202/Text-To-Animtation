@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+  <div align="center" id="loading_image" style="text-align:center">
+	  <img src={{url_for('static', filename="loading.gif")}} height="400" width="400"><br>
+	  Loading...
+  </div>
+  <!--controls 뒤에 autoplay 하면 자동 재생-->
+  <video width="320" height="240" controls>
+    <source src={{ url_for('static', filename="output.mp4") }} type="video/mp4">
+  </video>
+</body>
+</html>
