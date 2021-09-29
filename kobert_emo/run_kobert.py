@@ -10,7 +10,6 @@ from transformers import AutoModelForSequenceClassification
 
 from kobert_emo.utils import init_logger, load_tokenizer
 
-# 0814 수연 수정
 import kss
 import re
 # from hanspell import spell_checker
@@ -21,13 +20,12 @@ logger = logging.getLogger(__name__)
 
 # model_dir = 'kobert_emo/model'
 
-#수연 수정함.
+
 def get_device():
     return "cuda" if torch.cuda.is_available() else "cpu"
 
 
 def get_args():
-#수연 수정함
     return torch.load('./models/kobert_emo/training_args.bin')
 
 
@@ -47,7 +45,6 @@ def model_load(model_dir='./model'):
 
     return model
 
-#수연 수정
 def convert_input_file_to_tensor_dataset(input, args,
                                          cls_token_segment_id=0,
                                          pad_token_segment_id=0,
